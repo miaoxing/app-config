@@ -95,8 +95,9 @@ class AppConfigs extends BaseController
             $configs[] = wei()->appConfigModel()
                 ->findOrInit(['name' => $req['name'] . Config::DELIMITER . $name])
                 ->fromArray([
-                    'value' => wei()->config->encode($value),
-                    'type' => wei()->config->detectType($value),
+                    // 优先设置type才能正确转换value的值
+                    'type' => wei()->appConfig->detectType($value),
+                    'value' => $value,
                 ]);
         }
 
@@ -118,7 +119,7 @@ class AppConfigs extends BaseController
 
     public function publishAction()
     {
-        $ret = wei()->config->publish();
+        $ret = wei()->appConfig->publish();
 
         return $ret;
     }
