@@ -40,7 +40,11 @@ class AppConfigModel extends BaseModelV2
     {
         $value = $this->getPhpValue();
 
-        return is_scalar($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE);
+        if (is_scalar($value) || $value === null) {
+            return $value;
+        }
+
+        return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 
     protected function setValueAttribute($value)
