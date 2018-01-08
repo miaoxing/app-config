@@ -136,7 +136,7 @@ class AppConfig extends BaseService
             $service = substr($config['name'], 0, $pos);
             $option = substr($config['name'], $pos + 1);
 
-            $data[$service][$option] = $config->value;
+            $data[$service][$option] = $config->getPhpValue();
         }
 
         return $data;
@@ -154,21 +154,10 @@ class AppConfig extends BaseService
     }
 
     /**
-     * 转换数据为可存储的字符串
-     *
-     * @param mixed $value
+     * @param array $data
      * @return string
      */
-    public function encode($value)
-    {
-        if (!is_scalar($value)) {
-            return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        }
-
-        return $value;
-    }
-
-    protected function generateContent($data)
+    protected function generateContent(array $data)
     {
         return "<?php\n\nreturn " . var_export($data, true) . ";\n";
     }

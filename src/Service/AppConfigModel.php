@@ -10,6 +10,8 @@ use Miaoxing\Plugin\Model\SoftDeleteTrait;
 
 /**
  * 应用配置
+ *
+ * @property mixed $phpValue
  */
 class AppConfigModel extends BaseModelV2
 {
@@ -18,7 +20,7 @@ class AppConfigModel extends BaseModelV2
     use AppConfigTrait;
 
     protected $defaultCasts = [
-        'value' => 'mixed'
+        'value' => 'mixed',
     ];
 
     protected $decoder = 'unserialize';
@@ -26,7 +28,7 @@ class AppConfigModel extends BaseModelV2
     protected $encoder = 'serialize';
 
     protected $virtual = [
-        'type_label'
+        'type_label',
     ];
 
     protected function getTypeLabelAttribute()
@@ -36,13 +38,20 @@ class AppConfigModel extends BaseModelV2
 
     protected function getValueAttribute()
     {
-        return $this->data['value'] ? call_user_func($this->decoder, $this->data['value']) : null;
+        $value = $this->getPhpValue();
+
+        return is_scalar($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
     protected function setValueAttribute($value)
     {
         $value = $this->covert($value, $this->get('type'));
         $this->data['value'] = call_user_func($this->encoder, $value);
+    }
+
+    public function getPhpValue()
+    {
+        return $this->data['value'] ? call_user_func($this->decoder, $this->data['value']) : null;
     }
 
     /**
