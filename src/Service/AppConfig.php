@@ -86,6 +86,11 @@ class AppConfig extends BaseService
         return sprintf($this->configFile, $this->app->getNamespace());
     }
 
+    public function set($name, $value)
+    {
+        $this->appConfig->set('xx', 'value');
+    }
+
     protected function getVersion()
     {
         $version = $this->cache->get('appConfig.version', function () {
