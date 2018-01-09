@@ -54,10 +54,17 @@ class AppConfig extends BaseService
     }
 
     /**
+     * 发布配置,可选同时设置一些配置
+     *
+     * @param array $data 要设置的配置
      * @return array
      */
-    public function publish()
+    public function publish(array $data)
     {
+        if ($data) {
+            $this->set($data);
+        }
+
         $this->updateVersion();
 
         $this->writeConfigs();
@@ -86,9 +93,25 @@ class AppConfig extends BaseService
         return sprintf($this->configFile, $this->app->getNamespace());
     }
 
-    public function set($name, $value)
+    /**
+     * 设置一项或多项配置的值
+     *
+     * @param string|array $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function set($name, $value = null)
     {
-        $this->appConfig->set('xx', 'value');
+        if (is_array($name)) {
+            foreach ($name as $item => $value) {
+                $this->set($name, $value);
+            }
+        } else {
+            $config = wei()->appConfigModel()->findOrInit(['name' => $name]);
+            $config->save(['value' => $value]);
+        }
+
+        return $this;
     }
 
     protected function getVersion()
