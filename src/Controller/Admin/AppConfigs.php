@@ -8,7 +8,7 @@ use Wei\Request;
 
 class AppConfigs extends BaseController
 {
-    protected $controllerName = '配置管理';
+    protected $controllerName = '应用配置管理';
 
     protected $actionPermissions = [
         'index' => '列表',
@@ -28,9 +28,8 @@ class AppConfigs extends BaseController
                 $configs = wei()->appConfigModel()
                     ->desc('id')
                     ->limit($req['rows'])
-                    ->page($req['page']);
-
-                $configs->findAll();
+                    ->page($req['page'])
+                    ->findAll();
 
                 return $this->suc([
                     'data' => $configs,
@@ -68,44 +67,16 @@ class AppConfigs extends BaseController
 
     public function updateAction(Request $req)
     {
-        if (strpos($req['name'], Config::DELIMITER) === false) {
-            return $this->err('名称需包含分隔符(' . Config::DELIMITER . ')');
-        }
+        $ret = wei()->appConfig->createOrUpdate($req);
 
-        $config = wei()->appConfigModel()->findId($req['id']);
-        $config->save($req);
-
-        return $this->suc([
-            'data' => $config,
-        ]);
+        return $ret;
     }
 
     public function updateBatchAction($req)
     {
-        $reqConfigs = json_decode($req['configs'], true);
-        if (json_last_error()) {
-            return $this->err('解析JSON失败:' . json_last_error_msg());
-        }
-        if (!is_array($reqConfigs)) {
-            return $this->err('值必需是JSON数组');
-        }
+        $ret = wei()->appConfig->updateBatch($req);
 
-        $configs = wei()->appConfigModel();
-        foreach ($reqConfigs as $name => $value) {
-            $configs[] = wei()->appConfigModel()
-                ->findOrInit(['name' => $req['name'] . Config::DELIMITER . $name])
-                ->fromArray([
-                    // 优先设置type才能正确转换value的值
-                    'type' => wei()->appConfig->detectType($value),
-                    'value' => $value,
-                ]);
-        }
-
-        $configs->db->transactional(function () use ($configs) {
-            $configs->save();
-        });
-
-        return $this->suc();
+        return $ret;
     }
 
     public function destroyAction($req)
