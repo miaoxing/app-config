@@ -59,7 +59,7 @@ class AppConfig extends BaseService
      * @param array $data 要设置的配置
      * @return array
      */
-    public function publish(array $data)
+    public function publish(array $data = [])
     {
         if ($data) {
             $this->set($data);
