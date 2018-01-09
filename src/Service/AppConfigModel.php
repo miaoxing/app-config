@@ -15,5 +15,14 @@ class AppConfigModel extends ConfigModel
 {
     use HasAppIdTrait;
     use SoftDeleteTrait;
-    use AppConfigTrait;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+
+        $this->casts['app_id'] = 'int';
+    }
 }
