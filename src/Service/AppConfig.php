@@ -39,4 +39,3 @@ class AppConfig extends Config
         return $this->wei->appConfigModel();
     }
 }
-
