@@ -12,7 +12,6 @@ use Miaoxing\Plugin\Model\SoftDeleteTrait;
 class AppConfigModel extends ConfigModel
 {
     use HasAppIdTrait;
-    use SoftDeleteTrait;
 
     /**
      * {@inheritdoc}
