@@ -66,7 +66,7 @@ class AppConfigs extends BaseController
 
     public function updateAction(Request $req)
     {
-        $ret = wei()->appConfig->createOrUpdate($req);
+        $ret = wei()->appConfig->store($req);
 
         return $ret;
     }
