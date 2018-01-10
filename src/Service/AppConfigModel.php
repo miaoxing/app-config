@@ -4,7 +4,6 @@ namespace Miaoxing\AppConfig\Service;
 
 use Miaoxing\Config\Service\ConfigModel;
 use Miaoxing\Plugin\Model\HasAppIdTrait;
-use Miaoxing\Plugin\Model\SoftDeleteTrait;
 
 /**
  * 应用配置
