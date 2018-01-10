@@ -15,7 +15,7 @@ class AppConfig extends Config
     /**
      * {@inheritdoc}
      */
-    protected $configFile = 'data/configs/%s.php';
+    protected $configFile = 'data/app-configs/%s.php';
 
     /**
      * {@inheritdoc}
