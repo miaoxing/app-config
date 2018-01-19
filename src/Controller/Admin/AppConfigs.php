@@ -14,7 +14,7 @@ class AppConfigs extends BaseController
         'new,create' => '添加',
         'edit,update' => '编辑',
         'destroy' => '删除',
-        'editBatch,updateBatch' => '批量更新',
+        'batchEdit,batchUpdate' => '批量更新',
         'publish' => '发布',
     ];
 
@@ -47,7 +47,7 @@ class AppConfigs extends BaseController
         return $this->editAction($req);
     }
 
-    public function editBatchAction($req)
+    public function batchEditAction($req)
     {
         return get_defined_vars();
     }
@@ -71,9 +71,9 @@ class AppConfigs extends BaseController
         return $ret;
     }
 
-    public function updateBatchAction($req)
+    public function batchUpdateAction($req)
     {
-        $ret = wei()->appConfig->updateBatch($req);
+        $ret = wei()->appConfig->batchUpdate($req);
 
         return $ret;
     }
