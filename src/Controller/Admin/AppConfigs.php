@@ -7,20 +7,7 @@ use Wei\Request;
 
 class AppConfigs extends BaseController
 {
-    protected $controllerName = '应用配置管理';
-
-    protected $actionPermissions = [
-        'index' => '列表',
-        'new,create' => '添加',
-        'edit,update' => '编辑',
-        'destroy' => '删除',
-        'batchEdit,batchUpdate' => '批量更新',
-        'publish' => '发布',
-    ];
-
     protected $displayPageHeader = true;
-
-    protected $hidePermission = true;
 
     public function indexAction($req)
     {
